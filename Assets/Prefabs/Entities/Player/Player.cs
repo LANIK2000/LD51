@@ -16,7 +16,8 @@ public partial class Player : LoopingEntity
 	public int _onWallR = 0;
 	Vector2 _velocity_overide = new Vector2();
 	BoxCollider2D _groundTrigger;
-	private static readonly int Speed = Animator.StringToHash("Speed");
+	private static readonly int AnimSpeed = Animator.StringToHash("Speed");
+	private static readonly int AnimVerticality = Animator.StringToHash("Verticality");
 	private Animator _animator;
 
 	protected override void Start() {
@@ -43,7 +44,8 @@ public partial class Player : LoopingEntity
 			}
 		}
 
-		_animator.SetFloat(Speed, Math.Abs(_rb.velocity.x));
+		_animator.SetFloat(AnimSpeed, Math.Abs(_rb.velocity.x));
+		_animator.SetFloat(AnimVerticality, Math.Abs(_rb.velocity.y));
 	}
 
 	void FixedUpdate() {
