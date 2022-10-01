@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : LoopingEntity
+public partial class Player : LoopingEntity
 {
 	public float RunningSpeed = 15;
 	public float JumpForce = 15;
@@ -11,6 +11,9 @@ public class Player : LoopingEntity
 	public float CoyoteTime = .25f;
 	float _coyoteTime = 0;
 	bool _onGround = false;
+	bool _onWallL = false;
+	bool _onWallR = false;
+	Vector2 _velocity_overide = new Vector2();
 	BoxCollider2D _groundTrigger;
 	protected override void Start() {
 		base.Start();
@@ -20,49 +23,33 @@ public class Player : LoopingEntity
 	}
 
 	void Update() {
-		if (!_onGround && _coyoteTime > 0)
+		if (!_onGround && !_onWallL && !_onWallR)
 			_coyoteTime -= Time.deltaTime;
 
 		if (Input.GetButtonDown("Jump") && _coyoteTime > 0) {
-			_rb.velocity = new Vector2(_rb.velocity.x, JumpForce);
-			_coyoteTime = 0;
-			_onGround = false;
-		}
+				_rb.velocity = new Vector2(_rb.velocity.x, JumpForce) + _velocity_overide;
+				if (!_onGround) {
+					if (_onWallL)
+						_velocity_overide.x = 1 * RunningSpeed;
+					else if (_onWallR)
+						_velocity_overide.x = -1 * RunningSpeed;
+					else
+						_coyoteTime = 0;
+				}
+				_onGround = false;
+			}
 	}
 
 	void FixedUpdate() {
-
-		float speed = Input.GetAxis("Horizontal") * RunningSpeed;
+		_velocity_overide = Vector2.Lerp(_velocity_overide, new Vector2(), 4 * Time.deltaTime);
+		float overide_x = 1 - Mathf.Min(_velocity_overide.x / RunningSpeed, 1);
+		float speed = Input.GetAxis("Horizontal") * RunningSpeed * overide_x;
 
 		if (speed > 0)
 			_spriteRenderer.flipX = false;
 		else if (speed < 0)
 			_spriteRenderer.flipX = true;
 
-		_rb.velocity = new Vector2(
-			speed,
-			_rb.velocity.y
-		);
-	}
-
-	public void onGroundTriggerEnter(Collider2D other) {
-		switch (other.gameObject.tag) {
-			case "Ground":
-				_onGround = true;
-				_coyoteTime = CoyoteTime;
-				break;
-			default:
-				break;
-		}
-	}
-
-	public void onGroundTriggerExit(Collider2D other) {
-		switch (other.gameObject.tag) {
-			case "Ground":
-				_onGround = false;
-				break;
-			default:
-				break;
-		}
+		_rb.velocity = new Vector2(speed, _rb.velocity.y) + _velocity_overide;
 	}
 }
