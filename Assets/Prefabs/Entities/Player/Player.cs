@@ -11,9 +11,9 @@ public partial class Player : LoopingEntity
 	SpriteRenderer _spriteRenderer;
 	public float CoyoteTime = .25f;
 	float _coyoteTime = 0;
-	public int _onGround = 0;
-	public int _onWallL = 0;
-	public int _onWallR = 0;
+	int _onGround = 0;
+	int _onWallL = 0;
+	int _onWallR = 0;
 	Vector2 _velocity_overide = new Vector2();
 	BoxCollider2D _groundTrigger;
 	private static readonly int AnimSpeed = Animator.StringToHash("Speed");
