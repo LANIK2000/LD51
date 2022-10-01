@@ -11,9 +11,9 @@ public partial class Player : LoopingEntity
 	SpriteRenderer _spriteRenderer;
 	public float CoyoteTime = .25f;
 	float _coyoteTime = 0;
-	bool _onGround = false;
-	bool _onWallL = false;
-	bool _onWallR = false;
+	public bool _onGround = false;
+	public bool _onWallL = false;
+	public bool _onWallR = false;
 	Vector2 _velocity_overide = new Vector2();
 	BoxCollider2D _groundTrigger;
 	private static readonly int Speed = Animator.StringToHash("Speed");
@@ -35,22 +35,30 @@ public partial class Player : LoopingEntity
 			_rb.velocity = new Vector2(_rb.velocity.x, JumpForce) + _velocity_overide;
 			if (!_onGround) {
 				if (_onWallL)
-					_velocity_overide.x = 1 * RunningSpeed;
+					_velocity_overide.x = RunningSpeed;
 				else if (_onWallR)
-					_velocity_overide.x = -1 * RunningSpeed;
+					_velocity_overide.x = -RunningSpeed;
 				else
 					_coyoteTime = 0;
 			}
-			_onGround = false;
 		}
 
 		_animator.SetFloat(Speed, Math.Abs(_rb.velocity.x));
 	}
 
 	void FixedUpdate() {
-		_velocity_overide = Vector2.Lerp(_velocity_overide, new Vector2(), 4 * Time.deltaTime);
-		float overide_x = 1 - Mathf.Min(_velocity_overide.x / RunningSpeed, 1);
-		float speed = Input.GetAxis("Horizontal") * RunningSpeed * overide_x;
+		_velocity_overide = Vector2.Lerp(_velocity_overide, new Vector2(), 8 * Time.deltaTime);
+		float overide_x = 1 - Mathf.Abs(_velocity_overide.x / RunningSpeed);
+		float speed = Input.GetAxis("Horizontal") * RunningSpeed;
+
+		if (speed > 0) {
+			if (_velocity_overide.x < 0)
+				speed *= overide_x;
+		}
+		else if (speed < 0) {
+			if (_velocity_overide.x > 0)
+				speed *= overide_x;
+		}
 
 		if (speed > 0)
 			_spriteRenderer.flipX = false;
