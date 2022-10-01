@@ -11,9 +11,9 @@ public partial class Player : LoopingEntity
 	SpriteRenderer _spriteRenderer;
 	public float CoyoteTime = .25f;
 	float _coyoteTime = 0;
-	public bool _onGround = false;
-	public bool _onWallL = false;
-	public bool _onWallR = false;
+	public int _onGround = 0;
+	public int _onWallL = 0;
+	public int _onWallR = 0;
 	Vector2 _velocity_overide = new Vector2();
 	BoxCollider2D _groundTrigger;
 	private static readonly int Speed = Animator.StringToHash("Speed");
@@ -28,16 +28,16 @@ public partial class Player : LoopingEntity
 	}
 
 	void Update() {
-		if (!_onGround && !_onWallL && !_onWallR)
+		if (_onGround == 0 && _onWallL == 0 && _onWallR == 0)
 			_coyoteTime -= Time.deltaTime;
 
 		if (Input.GetButtonDown("Jump") && _coyoteTime > 0) {
 			_rb.velocity = new Vector2(_rb.velocity.x, JumpForce) + _velocity_overide;
-			if (!_onGround) {
-				if (_onWallL)
-					_velocity_overide.x = RunningSpeed;
-				else if (_onWallR)
-					_velocity_overide.x = -RunningSpeed;
+			if (_onGround == 0 || Input.GetAxis("Horizontal") != 0) {
+				if (_onWallL > 0)
+					_velocity_overide.x = RunningSpeed * 1.25f;
+				else if (_onWallR > 0)
+					_velocity_overide.x = -RunningSpeed * 1.25f;
 				else
 					_coyoteTime = 0;
 			}

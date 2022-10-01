@@ -7,7 +7,7 @@ public partial class Player : LoopingEntity
 	public void onGroundEnter(Collider2D other) {
 		switch (other.gameObject.tag) {
 			case "Ground":
-				_onGround = true;
+				_onGround++;
 				_coyoteTime = CoyoteTime;
 				break;
 			default:
@@ -18,7 +18,7 @@ public partial class Player : LoopingEntity
 	public void onGroundExit(Collider2D other) {
 		switch (other.gameObject.tag) {
 			case "Ground":
-				_onGround = false;
+				_onGround--;
 				break;
 			default:
 				break;
@@ -29,7 +29,7 @@ public partial class Player : LoopingEntity
 		switch (other.gameObject.tag) {
 			case "Ground":
 			case "Wall":
-				_onWallL = true;
+				_onWallL++;
 				_coyoteTime = CoyoteTime;
 				break;
 			default:
@@ -41,7 +41,7 @@ public partial class Player : LoopingEntity
 		switch (other.gameObject.tag) {
 			case "Ground":
 			case "Wall":
-				_onWallL = false;
+				_onWallL--;
 				break;
 			default:
 				break;
@@ -52,7 +52,7 @@ public partial class Player : LoopingEntity
 		switch (other.gameObject.tag) {
 			case "Ground":
 			case "Wall":
-				_onWallR = true;
+				_onWallR++;
 				_coyoteTime = CoyoteTime;
 				break;
 			default:
@@ -64,7 +64,7 @@ public partial class Player : LoopingEntity
 		switch (other.gameObject.tag) {
 			case "Ground":
 			case "Wall":
-				_onWallR = false;
+				_onWallR--;
 				break;
 			default:
 				break;
