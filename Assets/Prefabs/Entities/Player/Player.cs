@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Player : LoopingEntity
 {
-	public float RunningSpeed = 10;
-	public float JumpForce = 500;
+	public float RunningSpeed = 15;
+	public float JumpForce = 15;
+
+	public override void Start() {
+		base.Start();
+	}
 
 	void Update() {
 		if (Input.GetButtonDown("Jump"))
