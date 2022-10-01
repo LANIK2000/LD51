@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,11 @@ public class Player : LoopingEntity
 	float _coyoteTime = 0;
 	bool _onGround = false;
 	BoxCollider2D _groundTrigger;
+	private static readonly int Speed = Animator.StringToHash("Speed");
+	private Animator _animator;
+
 	protected override void Start() {
+		_animator = GetComponent<Animator>();
 		base.Start();
 
 		_spriteRenderer = GetComponent<SpriteRenderer>();
@@ -28,6 +33,8 @@ public class Player : LoopingEntity
 			_coyoteTime = 0;
 			_onGround = false;
 		}
+
+		_animator.SetFloat(Speed, Math.Abs(_rb.velocity.x));
 	}
 
 	void FixedUpdate() {
