@@ -37,7 +37,7 @@ public partial class Player : LoopingEntity
 
 		if (Input.GetButtonDown("Jump") && _coyoteTime > 0) {
 			_rb.velocity = new Vector2(_rb.velocity.x, JumpForce) + _velocity_overide;
-			if (_onGround == 0 || Input.GetAxis("Horizontal") != 0) {
+			if (_onGround == 0) {
 				if (_onWallL > 0)
 					_velocity_overide.x = RunningSpeed * 1.25f;
 				else if (_onWallR > 0)
