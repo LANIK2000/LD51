@@ -12,6 +12,16 @@ public partial class Player : LoopingEntity
 	public Transform Camera;
 	public float CameraFollowSpeed = 1;
 
+	public Transform CheckPoint;
+
+	public override void Save() {
+		base.Save();
+		if (CheckPoint != null) {
+			CheckPoint.position = _rb.position;
+			CheckPoint.position = new Vector3(CheckPoint.position.x, CheckPoint.position.y, 2);
+		}
+	}
+
 	public override void Load() {
 		base.Load();
 		if (Camera != null)
@@ -29,6 +39,7 @@ public partial class Player : LoopingEntity
 	BoxCollider2D _groundTrigger;
 	private static readonly int AnimSpeed = Animator.StringToHash("Speed");
 	private static readonly int AnimVerticality = Animator.StringToHash("Verticality");
+	private static readonly int AnimAttack = Animator.StringToHash("AnimAttack");
 	private Animator _animator;
 
 	protected override void Start() {
@@ -41,6 +52,9 @@ public partial class Player : LoopingEntity
 	}
 
 	void Update() {
+		if (CheckPoint != null && CheckPoint.parent != null)
+			CheckPoint.parent = null;
+		
 		_timerTextMesh.text = "Reset Timer: " + LoopSaveSystem.instance.Timer.ToString();
 
 		if (_onGround == 0 && _onWallL == 0 && _onWallR == 0)
@@ -61,6 +75,7 @@ public partial class Player : LoopingEntity
 		if (Input.GetButtonDown("Reset"))
 			LoopSaveSystem.instance.LoadAll();
 
+		_animator.SetBool(AnimAttack, Input.GetButtonDown("Attack"));
 		_animator.SetFloat(AnimSpeed, Math.Abs(_rb.velocity.x));
 		_animator.SetFloat(AnimVerticality, _rb.velocity.y);
 	}
