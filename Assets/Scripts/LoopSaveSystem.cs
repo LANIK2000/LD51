@@ -10,8 +10,7 @@ public class LoopSaveSystem : MonoBehaviour
 	public bool button_save = false;
 	public bool button_load = false;
 
-	void Start()
-	{
+	void Start() {
 		
 	}
 
