@@ -8,6 +8,9 @@ public partial class Player : LoopingEntity
 	public float RunningSpeed = 15;
 	public float JumpForce = 15;
 
+	public Transform Camera;
+	public float CameraFollowSpeed = 1;
+
 	SpriteRenderer _spriteRenderer;
 	public float CoyoteTime = .25f;
 	float _coyoteTime = 0;
@@ -45,10 +48,13 @@ public partial class Player : LoopingEntity
 		}
 
 		_animator.SetFloat(AnimSpeed, Math.Abs(_rb.velocity.x));
-		_animator.SetFloat(AnimVerticality, Math.Abs(_rb.velocity.y));
+		_animator.SetFloat(AnimVerticality, _rb.velocity.y);
 	}
 
 	void FixedUpdate() {
+		if (Camera != null)
+			Camera.position = Vector2.Lerp(Camera.position, transform.position, CameraFollowSpeed * Time.deltaTime);
+
 		_velocity_overide = Vector2.Lerp(_velocity_overide, new Vector2(), 8 * Time.deltaTime);
 		float overide_x = 1 - Mathf.Abs(_velocity_overide.x / RunningSpeed);
 		float speed = Input.GetAxis("Horizontal") * RunningSpeed;

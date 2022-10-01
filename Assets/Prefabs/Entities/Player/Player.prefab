@@ -199,10 +199,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RunningSpeed: 12
   JumpForce: 13
-  CoyoteTime: 0.2
-  _onGround: 0
-  _onWallL: 0
-  _onWallR: 0
+  Camera: {fileID: 0}
+  CameraFollowSpeed: 4
+  CoyoteTime: 0.125
 --- !u!61 &4515333848412035738
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -216,7 +215,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0047243685, y: -0.06406254}
+  m_Offset: {x: 0.0047243685, y: -0.0595489}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -227,7 +226,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1313515, y: 0.19072898}
+  m_Size: {x: 0.1313515, y: 0.18170169}
   m_EdgeRadius: 0
 --- !u!50 &1874239884900393113
 Rigidbody2D:
