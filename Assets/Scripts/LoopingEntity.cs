@@ -6,11 +6,11 @@ public class LoopingEntity : MonoBehaviour
 {
 	private Vector2 _velocity = new Vector2();
 	private Vector2 _position = new Vector2();
-	public void Save() {
+	public virtual void Save() {
 		_velocity = _rb.velocity;
 		_position = _rb.position;
 	}
-	public void Load() {
+	public virtual void Load() {
 		_rb.velocity = _velocity;
 		_rb.position = _position;
 	}

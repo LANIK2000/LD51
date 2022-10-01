@@ -25,7 +25,15 @@ public class LoopSaveSystem : MonoBehaviour
 	public bool button_save = false;
 	public bool button_load = false;
 
+
+	public float Timer { get; private set; }= 0;
 	void Update() {
+
+		Timer -= Time.deltaTime;
+		if (Timer <= 0)
+			this.SaveAll();
+
+
 		if (button_load) {
 			button_load = false;
 			this.LoadAll();
@@ -37,11 +45,13 @@ public class LoopSaveSystem : MonoBehaviour
 	}
 
 	public void LoadAll() {
+		Timer = 10;
 		foreach (var entity in Entities)
 			entity?.Load();
 	}
 
 	public void SaveAll() {
+		Timer = 10;
 		foreach (var entity in Entities)
 			entity?.Save();
 	}

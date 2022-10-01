@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public partial class Player : LoopingEntity
 {
@@ -11,6 +12,13 @@ public partial class Player : LoopingEntity
 	public Transform Camera;
 	public float CameraFollowSpeed = 1;
 
+	public override void Load() {
+		base.Load();
+		if (Camera != null)
+			Camera.position = _rb.position;
+	}
+
+	TMP_Text _timerTextMesh;
 	SpriteRenderer _spriteRenderer;
 	public float CoyoteTime = .25f;
 	float _coyoteTime = 0;
@@ -29,9 +37,12 @@ public partial class Player : LoopingEntity
 
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_groundTrigger = transform.Find("GroundTrigger").GetComponent<BoxCollider2D>();
+		_timerTextMesh = transform.Find("Canvas").Find("Timer").GetComponent<TMP_Text>();
 	}
 
 	void Update() {
+		_timerTextMesh.text = "Reset Timer: " + LoopSaveSystem.instance.Timer.ToString();
+
 		if (_onGround == 0 && _onWallL == 0 && _onWallR == 0)
 			_coyoteTime -= Time.deltaTime;
 
@@ -47,13 +58,19 @@ public partial class Player : LoopingEntity
 			}
 		}
 
+		if (Input.GetButtonDown("Reset"))
+			LoopSaveSystem.instance.LoadAll();
+
 		_animator.SetFloat(AnimSpeed, Math.Abs(_rb.velocity.x));
 		_animator.SetFloat(AnimVerticality, _rb.velocity.y);
 	}
 
 	void FixedUpdate() {
-		if (Camera != null)
+		if (Camera != null) {
+			if (Camera.parent != null)
+				Camera.parent = null;
 			Camera.position = Vector2.Lerp(Camera.position, transform.position, CameraFollowSpeed * Time.deltaTime);
+		}
 
 		_velocity_overide = Vector2.Lerp(_velocity_overide, new Vector2(), 8 * Time.deltaTime);
 		float overide_x = 1 - Mathf.Abs(_velocity_overide.x / RunningSpeed);
