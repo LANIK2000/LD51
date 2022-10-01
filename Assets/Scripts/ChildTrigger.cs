@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class ChildTrigger : MonoBehaviour
 {
-	public string MethodName = "";
+	public string MethodEnterName = "";
+	public string MethodExitName = "";
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		transform.SendMessageUpwards(MethodName, other);
+		transform.SendMessageUpwards(MethodEnterName, other);
+	}
+
+	private void OnTriggerExit2D(Collider2D other) {
+		transform.SendMessageUpwards(MethodExitName, other);
 	}
 }

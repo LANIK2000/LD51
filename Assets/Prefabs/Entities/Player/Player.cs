@@ -8,7 +8,9 @@ public class Player : LoopingEntity
 	public float JumpForce = 15;
 
 	SpriteRenderer _spriteRenderer;
+	public float CoyoteTime = .25f;
 	float _coyoteTime = 0;
+	bool _onGround = false;
 	BoxCollider2D _groundTrigger;
 	protected override void Start() {
 		base.Start();
@@ -18,11 +20,14 @@ public class Player : LoopingEntity
 	}
 
 	void Update() {
-		if (Input.GetButtonDown("Jump"))
-			_rb.velocity = new Vector2(
-				_rb.velocity.x,
-				JumpForce
-			);
+		if (!_onGround && _coyoteTime > 0)
+			_coyoteTime -= Time.deltaTime;
+
+		if (Input.GetButtonDown("Jump") && _coyoteTime > 0) {
+			_rb.velocity = new Vector2(_rb.velocity.x, JumpForce);
+			_coyoteTime = 0;
+			_onGround = false;
+		}
 	}
 
 	void FixedUpdate() {
@@ -40,7 +45,24 @@ public class Player : LoopingEntity
 		);
 	}
 
-	public void onGroundTrigger(Collider2D other) {
-		
+	public void onGroundTriggerEnter(Collider2D other) {
+		switch (other.gameObject.tag) {
+			case "Ground":
+				_onGround = true;
+				_coyoteTime = CoyoteTime;
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void onGroundTriggerExit(Collider2D other) {
+		switch (other.gameObject.tag) {
+			case "Ground":
+				_onGround = false;
+				break;
+			default:
+				break;
+		}
 	}
 }
