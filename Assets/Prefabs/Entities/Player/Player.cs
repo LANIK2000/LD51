@@ -7,8 +7,9 @@ public class Player : LoopingEntity
 	public float RunningSpeed = 15;
 	public float JumpForce = 15;
 
-	public override void Start() {
+	protected override void Start() {
 		base.Start();
+
 	}
 
 	void Update() {
