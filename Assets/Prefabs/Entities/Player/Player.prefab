@@ -144,13 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda1e75a81165164393879324fa1bd36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
   MethodEnterName: onGroundEnter
   MethodExitName: onGroundExit
-=======
-  MethodEnterName: 
-  MethodExitName: 
->>>>>>> 0342acd46dcd130daf08476dc381ce47eadffab0
 --- !u!1 &4724106961208375875
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +159,6 @@ GameObject:
   - component: {fileID: 4515333848412035738}
   - component: {fileID: 1874239884900393113}
   - component: {fileID: 535592153}
-  - component: {fileID: 7883805468377196373}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -204,11 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RunningSpeed: 15
   JumpForce: 15
-<<<<<<< HEAD
   CoyoteTime: 0.125
-=======
-  CoyoteTime: 0.25
->>>>>>> 0342acd46dcd130daf08476dc381ce47eadffab0
 --- !u!61 &4515333848412035738
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -308,19 +298,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
-<<<<<<< HEAD
 --- !u!1 &7981421554198919669
 GameObject:
-=======
---- !u!95 &7883805468377196373
-Animator:
-  serializedVersion: 4
->>>>>>> 0342acd46dcd130daf08476dc381ce47eadffab0
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
   serializedVersion: 6
   m_Component:
   - component: {fileID: 67579608912513293}
@@ -376,28 +359,10 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!114 &8730937004619839739
 MonoBehaviour:
-=======
-  m_GameObject: {fileID: 4724106961208375875}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8ecd28971893ce74c9c1193862a5b6f1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1029 &102900000
-DefaultAsset:
->>>>>>> 0342acd46dcd130daf08476dc381ce47eadffab0
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
   m_GameObject: {fileID: 7981421554198919669}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -406,9 +371,3 @@ DefaultAsset:
   m_EditorClassIdentifier: 
   MethodEnterName: onWallRightEnter
   MethodExitName: onWallRightExit
-=======
-  m_Name: Player
-  m_Message: .prefab file is not a prefab. There are no GameObjects in the file.
-    Did you give the asset the wrong extension?
-  m_IsWarning: 1
->>>>>>> 0342acd46dcd130daf08476dc381ce47eadffab0
