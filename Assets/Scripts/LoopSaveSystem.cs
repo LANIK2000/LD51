@@ -5,14 +5,25 @@ using UnityEngine;
 
 public class LoopSaveSystem : MonoBehaviour
 {
-	public List<LoopingEntity> Entities = new List<LoopingEntity>();
+	public static LoopSaveSystem instance { get; set; }
 
+	private void Awake()
+	{
+		// If there is an instance, and it's not me, delete myself.
+		if (instance != null && instance != this)
+		{
+			// this.Dispose();
+		}
+		else
+		{
+			instance = this;
+		}
+	}
+
+	public List<LoopingEntity> Entities = new List<LoopingEntity>();
+	
 	public bool button_save = false;
 	public bool button_load = false;
-
-	void Start() {
-		
-	}
 
 	void Update() {
 		if (button_load) {
@@ -26,12 +37,12 @@ public class LoopSaveSystem : MonoBehaviour
 	}
 
 	public void LoadAll() {
-		foreach (var enitty in Entities)
-			enitty?.Load();
+		foreach (var entity in Entities)
+			entity?.Load();
 	}
 
 	public void SaveAll() {
-		foreach (var enitty in Entities)
-			enitty?.Save();
+		foreach (var entity in Entities)
+			entity?.Save();
 	}
 }
