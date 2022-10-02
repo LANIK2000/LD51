@@ -72,11 +72,11 @@ public partial class Player : LoopingEntity
 		_attackRight = transform.Find("AttackRight").gameObject;
 		var Canvas = transform.Find("Canvas");
 		if (Canvas != null)
-			Canvas.parent = null;
+			Canvas.SetParent(null);
 		if (CheckPoint != null && CheckPoint.parent != null)
-			CheckPoint.parent = null;
+			CheckPoint.SetParent(null);
 		if (Camera != null && Camera.parent != null)
-			Camera.parent = null;
+			Camera.SetParent(null);
 	}
 
 	void Update() {
@@ -156,11 +156,5 @@ public partial class Player : LoopingEntity
 			Flip = (speed + _velocity_overide.x) < 0;
 
 		_rb.velocity = new Vector2(speed, _rb.velocity.y) + _velocity_overide;
-	}
-
-	void OnTriggerEnter2D(Collider2D other) {
-		Debug.Log(other.tag);
-		if (other.tag == "EnemyAttack")
-			LoopSaveSystem.instance?.LoadAll();
 	}
 }
