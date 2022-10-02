@@ -6,6 +6,18 @@ using TMPro;
 
 public partial class Player : LoopingEntity
 {
+	public static Player instance { get; set; } = null;
+
+	private void Awake()
+	{
+		if (instance != null && instance != this)
+		{
+			// this.Dispose();
+		}
+		else
+			instance = this;
+	}	
+
 	public float RunningSpeed = 15;
 	public float JumpForce = 15;
 
@@ -58,6 +70,9 @@ public partial class Player : LoopingEntity
 		_timerTextMesh = transform.Find("Canvas").Find("Timer").GetComponent<TMP_Text>();
 		_attackLeft = transform.Find("AttackLeft").gameObject;
 		_attackRight = transform.Find("AttackRight").gameObject;
+		var Canvas = transform.Find("Canvas");
+		if (Canvas != null)
+			Canvas.parent = null;
 		if (CheckPoint != null && CheckPoint.parent != null)
 			CheckPoint.parent = null;
 		if (Camera != null && Camera.parent != null)
@@ -141,5 +156,11 @@ public partial class Player : LoopingEntity
 			Flip = (speed + _velocity_overide.x) < 0;
 
 		_rb.velocity = new Vector2(speed, _rb.velocity.y) + _velocity_overide;
+	}
+
+	void OnTriggerEnter2D(Collider2D other) {
+		Debug.Log(other.tag);
+		if (other.tag == "EnemyAttack")
+			LoopSaveSystem.instance?.LoadAll();
 	}
 }
