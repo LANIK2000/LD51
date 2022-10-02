@@ -5,22 +5,19 @@ using UnityEngine;
 
 public class LoopSaveSystem : MonoBehaviour
 {
-	public static LoopSaveSystem instance { get; set; }
+	public static LoopSaveSystem instance { get; set; } = null;
 
 	private void Awake()
 	{
-		// If there is an instance, and it's not me, delete myself.
 		if (instance != null && instance != this)
 		{
 			// this.Dispose();
 		}
 		else
-		{
 			instance = this;
-		}
 	}
 
-	public List<LoopingEntity> Entities = new List<LoopingEntity>();
+	static public List<LoopingEntity> Entities = new List<LoopingEntity>();
 	
 	public bool button_save = false;
 	public bool button_load = false;

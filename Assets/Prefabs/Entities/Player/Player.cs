@@ -49,13 +49,14 @@ public partial class Player : LoopingEntity
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_groundTrigger = transform.Find("GroundTrigger").GetComponent<BoxCollider2D>();
 		_timerTextMesh = transform.Find("Canvas").Find("Timer").GetComponent<TMP_Text>();
+		if (CheckPoint != null && CheckPoint.parent != null)
+			CheckPoint.parent = null;
+		if (Camera != null && Camera.parent != null)
+			Camera.parent = null;
 	}
 
 	void Update() {
-		if (CheckPoint != null && CheckPoint.parent != null)
-			CheckPoint.parent = null;
-		
-		_timerTextMesh.text = "Reset Timer: " + LoopSaveSystem.instance.Timer.ToString();
+		_timerTextMesh.text = "Reset Timer: " + (LoopSaveSystem.instance?.Timer ?? 0).ToString();
 
 		if (_onGround == 0 && _onWallL == 0 && _onWallR == 0)
 			_coyoteTime -= Time.deltaTime;
@@ -73,7 +74,7 @@ public partial class Player : LoopingEntity
 		}
 
 		if (Input.GetButtonDown("Reset"))
-			LoopSaveSystem.instance.LoadAll();
+			LoopSaveSystem.instance?.LoadAll();
 
 		_animator.SetBool(AnimAttack, Input.GetButtonDown("Attack"));
 		_animator.SetFloat(AnimSpeed, Math.Abs(_rb.velocity.x));
@@ -82,9 +83,8 @@ public partial class Player : LoopingEntity
 
 	void FixedUpdate() {
 		if (Camera != null) {
-			if (Camera.parent != null)
-				Camera.parent = null;
 			Camera.position = Vector2.Lerp(Camera.position, transform.position, CameraFollowSpeed * Time.deltaTime);
+			Camera.position = new Vector3(Camera.position.x, Camera.position.y, -1);
 		}
 
 		_velocity_overide = Vector2.Lerp(_velocity_overide, new Vector2(), 8 * Time.deltaTime);

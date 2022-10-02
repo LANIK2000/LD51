@@ -21,6 +21,6 @@ public class LoopingEntity : MonoBehaviour
 	protected Rigidbody2D _rb;
 	protected virtual void Start() {
 		_rb = GetComponent<Rigidbody2D>();
-		LoopSaveSystem.instance.Entities.Add(this);
+		LoopSaveSystem.Entities.Add(this);
 	}
 }
