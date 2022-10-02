@@ -6,6 +6,18 @@ using TMPro;
 
 public partial class Player : LoopingEntity
 {
+	public static Player instance { get; set; } = null;
+
+	private void Awake()
+	{
+		if (instance != null && instance != this)
+		{
+			// this.Dispose();
+		}
+		else
+			instance = this;
+	}	
+
 	public float RunningSpeed = 15;
 	public float JumpForce = 15;
 
@@ -58,10 +70,13 @@ public partial class Player : LoopingEntity
 		_timerTextMesh = transform.Find("Canvas").Find("Timer").GetComponent<TMP_Text>();
 		_attackLeft = transform.Find("AttackLeft").gameObject;
 		_attackRight = transform.Find("AttackRight").gameObject;
+		var Canvas = transform.Find("Canvas");
+		if (Canvas != null)
+			Canvas.SetParent(null);
 		if (CheckPoint != null && CheckPoint.parent != null)
-			CheckPoint.parent = null;
+			CheckPoint.SetParent(null);
 		if (Camera != null && Camera.parent != null)
-			Camera.parent = null;
+			Camera.SetParent(null);
 	}
 
 	void Update() {
