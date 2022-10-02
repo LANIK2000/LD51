@@ -8,10 +8,12 @@ public class ChildTrigger : MonoBehaviour
 	public string MethodExitName = "";
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		transform.SendMessageUpwards(MethodEnterName, other);
+		if (MethodEnterName != "")
+			transform.SendMessageUpwards(MethodEnterName, other);
 	}
 
 	private void OnTriggerExit2D(Collider2D other) {
-		transform.SendMessageUpwards(MethodExitName, other);
+		if (MethodExitName != "")
+			transform.SendMessageUpwards(MethodExitName, other);
 	}
 }

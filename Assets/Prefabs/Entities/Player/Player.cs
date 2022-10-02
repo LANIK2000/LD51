@@ -28,6 +28,8 @@ public partial class Player : LoopingEntity
 			Camera.position = _rb.position;
 	}
 
+	public bool Flip { get; private set; } = false;
+
 	TMP_Text _timerTextMesh;
 	SpriteRenderer _spriteRenderer;
 	public float CoyoteTime = .25f;
@@ -40,7 +42,12 @@ public partial class Player : LoopingEntity
 	private static readonly int AnimSpeed = Animator.StringToHash("Speed");
 	private static readonly int AnimVerticality = Animator.StringToHash("Verticality");
 	private static readonly int AnimAttack = Animator.StringToHash("AnimAttack");
+	private static readonly int AnimAttackInit = Animator.StringToHash("AnimAttackInit");
+	private static readonly int AnimOnGround = Animator.StringToHash("onGround");
 	private Animator _animator;
+	GameObject _attackLeft;
+	GameObject _attackRight;
+	bool _canAttack = true;
 
 	protected override void Start() {
 		_animator = GetComponent<Animator>();
@@ -49,6 +56,8 @@ public partial class Player : LoopingEntity
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_groundTrigger = transform.Find("GroundTrigger").GetComponent<BoxCollider2D>();
 		_timerTextMesh = transform.Find("Canvas").Find("Timer").GetComponent<TMP_Text>();
+		_attackLeft = transform.Find("AttackLeft").gameObject;
+		_attackRight = transform.Find("AttackRight").gameObject;
 		if (CheckPoint != null && CheckPoint.parent != null)
 			CheckPoint.parent = null;
 		if (Camera != null && Camera.parent != null)
@@ -76,9 +85,37 @@ public partial class Player : LoopingEntity
 		if (Input.GetButtonDown("Reset"))
 			LoopSaveSystem.instance?.LoadAll();
 
-		_animator.SetBool(AnimAttack, Input.GetButtonDown("Attack"));
+		if (_canAttack && Input.GetButtonDown("Attack")) {
+			if (Input.GetButton("Left"))
+				Flip = true;
+			else if (Input.GetButton("Right"))
+				Flip = false;
+			_canAttack = false;
+			_animator.SetBool(AnimAttackInit, true);
+			_animator.SetBool(AnimAttack, true);
+		}
+		_animator.SetBool(AnimOnGround, _onGround > 0);
 		_animator.SetFloat(AnimSpeed, Math.Abs(_rb.velocity.x));
 		_animator.SetFloat(AnimVerticality, _rb.velocity.y);
+		
+		_spriteRenderer.flipX = Flip;
+	}
+
+	public void AttackStrikeStart() {
+		if (Flip)
+			_attackLeft.SetActive(true);
+		else
+			_attackRight.SetActive(true);
+	}
+
+	public void AttackStrikeEnd() {
+		_canAttack = true;
+		_attackLeft.SetActive(false);
+		_attackRight.SetActive(false);
+	}
+
+	public void AttackEnd() {
+		_animator.SetBool(AnimAttack, false);
 	}
 
 	void FixedUpdate() {
@@ -100,10 +137,8 @@ public partial class Player : LoopingEntity
 				speed *= overide_x;
 		}
 
-		if (speed > 0)
-			_spriteRenderer.flipX = false;
-		else if (speed < 0)
-			_spriteRenderer.flipX = true;
+		if (MathF.Abs(speed + _velocity_overide.x) > .1f && !_animator.GetBool(AnimAttack))
+			Flip = (speed + _velocity_overide.x) < 0;
 
 		_rb.velocity = new Vector2(speed, _rb.velocity.y) + _velocity_overide;
 	}
