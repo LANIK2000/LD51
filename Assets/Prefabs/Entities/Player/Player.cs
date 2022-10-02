@@ -18,7 +18,7 @@ public partial class Player : LoopingEntity
 		base.Save();
 		if (CheckPoint != null) {
 			CheckPoint.position = _rb.position;
-			CheckPoint.position = new Vector3(CheckPoint.position.x, CheckPoint.position.y, 2);
+			CheckPoint.position = new Vector3(CheckPoint.position.x, CheckPoint.position.y, -1);
 		}
 	}
 
@@ -84,7 +84,7 @@ public partial class Player : LoopingEntity
 	void FixedUpdate() {
 		if (Camera != null) {
 			Camera.position = Vector2.Lerp(Camera.position, transform.position, CameraFollowSpeed * Time.deltaTime);
-			Camera.position = new Vector3(Camera.position.x, Camera.position.y, -1);
+			Camera.position = new Vector3(Camera.position.x, Camera.position.y, -2);
 		}
 
 		_velocity_overide = Vector2.Lerp(_velocity_overide, new Vector2(), 8 * Time.deltaTime);
