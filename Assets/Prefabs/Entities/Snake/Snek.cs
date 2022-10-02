@@ -11,14 +11,16 @@ public class Snek : MonoBehaviour
 
     public void seesPit(Collider2D cl)
     {
-        _rb.velocity = Vector2.zero;
-        Rotate();
+        if (cl.tag != "Player")
+        {
+            _rb.velocity = Vector2.zero;
+            Rotate();
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rb = GetComponent<Rigidbody2D>();
     }
@@ -27,8 +29,6 @@ public class Snek : MonoBehaviour
 
     private Rigidbody2D _rb;
     private SpriteRenderer _spriteRenderer;
-    private Animator _animator;
-    private static readonly int Wait = Animator.StringToHash("Wait");
 
     private static Random _rand = Random.CreateFromIndex(0);
 
