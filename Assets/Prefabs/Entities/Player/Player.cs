@@ -40,6 +40,8 @@ public partial class Player : LoopingEntity
 	private static readonly int AnimSpeed = Animator.StringToHash("Speed");
 	private static readonly int AnimVerticality = Animator.StringToHash("Verticality");
 	private static readonly int AnimAttack = Animator.StringToHash("AnimAttack");
+	private static readonly int AnimAttackInit = Animator.StringToHash("AnimAttackInit");
+	private static readonly int AnimOnGround = Animator.StringToHash("onGround");
 	private Animator _animator;
 
 	protected override void Start() {
@@ -76,9 +78,25 @@ public partial class Player : LoopingEntity
 		if (Input.GetButtonDown("Reset"))
 			LoopSaveSystem.instance?.LoadAll();
 
-		_animator.SetBool(AnimAttack, Input.GetButtonDown("Attack"));
+		if (Input.GetButtonDown("Attack")) {
+			_animator.SetBool(AnimAttackInit, true);
+			_animator.SetBool(AnimAttack, true);
+		}
+		_animator.SetBool(AnimOnGround, _onGround > 0);
 		_animator.SetFloat(AnimSpeed, Math.Abs(_rb.velocity.x));
 		_animator.SetFloat(AnimVerticality, _rb.velocity.y);
+	}
+
+	public void AttackStrikeStart() {
+
+	}
+
+	public void AttackStrikeEnd() {
+
+	}
+
+	public void AttackEnd() {
+		_animator.SetBool(AnimAttack, false);
 	}
 
 	void FixedUpdate() {
@@ -100,10 +118,8 @@ public partial class Player : LoopingEntity
 				speed *= overide_x;
 		}
 
-		if (speed > 0)
-			_spriteRenderer.flipX = false;
-		else if (speed < 0)
-			_spriteRenderer.flipX = true;
+		if (MathF.Abs(speed + _velocity_overide.x) > .1f)
+			_spriteRenderer.flipX = (speed + _velocity_overide.x) < 0;
 
 		_rb.velocity = new Vector2(speed, _rb.velocity.y) + _velocity_overide;
 	}
