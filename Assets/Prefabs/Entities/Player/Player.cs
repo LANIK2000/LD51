@@ -124,12 +124,12 @@ public partial class Player : LoopingEntity
 	}
 
 	public void AttackStrikeEnd() {
-		_canAttack = true;
 		_attackLeft.SetActive(false);
 		_attackRight.SetActive(false);
 	}
 
 	public void AttackEnd() {
+		_canAttack = true;
 		_animator.SetBool(AnimAttack, false);
 	}
 

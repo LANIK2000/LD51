@@ -20,12 +20,10 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 6be4e3f4aead92e41adfc81b49bc5b63, type: 3}
-    - time: 0.016666668
       value: {fileID: 21300000, guid: af57cd906919ec34a81b9ce08b08efff, type: 3}
-    - time: 0.033333335
+    - time: 0.016666668
       value: {fileID: 21300000, guid: 8b5a5358cb026a44dbd764165f61149c, type: 3}
-    - time: 0.05
+    - time: 0.033333335
       value: {fileID: 21300000, guid: 830c8715fa4486b49a304a2f467279a2, type: 3}
     attribute: m_Sprite
     path: 
@@ -46,7 +44,6 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 6be4e3f4aead92e41adfc81b49bc5b63, type: 3}
     - {fileID: 21300000, guid: af57cd906919ec34a81b9ce08b08efff, type: 3}
     - {fileID: 21300000, guid: 8b5a5358cb026a44dbd764165f61149c, type: 3}
     - {fileID: 21300000, guid: 830c8715fa4486b49a304a2f467279a2, type: 3}
@@ -55,7 +52,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.06666667
+    m_StopTime: 0.050000004
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -82,14 +79,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.05
+  - time: 0.033333335
     functionName: AttackStrikeEnd
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.06666667
+  - time: 0.05
     functionName: AttackEnd
     data: 
     objectReferenceParameter: {fileID: 0}
