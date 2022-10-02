@@ -20,11 +20,14 @@ public class Magpie : MonoBehaviour
     private static readonly int Swoop = Animator.StringToHash("Swoop");
     public float AttackTimer { get; set; } = 0;
     public bool Attacking { get; set; } = false;
+    private bool PlayerToRight = false;
+    private SpriteRenderer _spriteRenderer;
     float Timer { get; set; } = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
         _player = Player.instance;
@@ -50,7 +53,7 @@ public class Magpie : MonoBehaviour
             }
             else
             {
-                Vector2 temp = new Vector2((float)Math.Sin(-AttackTimer * Math.PI),
+                Vector2 temp = new Vector2((float)Math.Sin(-AttackTimer * Math.PI) * (PlayerToRight ? 1 : -1),
                     (float)Math.Cos(-AttackTimer * Math.PI));
                 _rb.velocity +=
                     temp *
@@ -59,6 +62,8 @@ public class Magpie : MonoBehaviour
         }
         else
         {
+            PlayerToRight = _player.transform.position.x < transform.position.x;
+            _spriteRenderer.flipX = !PlayerToRight;
             if (Vector2.Distance(_player.transform.position, transform.position)
                 < AttackDistance)
             {
