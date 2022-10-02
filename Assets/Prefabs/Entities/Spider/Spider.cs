@@ -50,7 +50,7 @@ public class Spider : LoopingEntity
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.tag == "PlayerAttack")
 			this.Die();
-		if (other.tag == "PlayerAvatar")
+		if (other.tag == "Player")
 			LoopSaveSystem.instance.LoadAll();
 	}
 }

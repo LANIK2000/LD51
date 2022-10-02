@@ -5,7 +5,7 @@ using UnityEngine;
 public class HurtPlayer : MonoBehaviour
 {
 	void OnTriggerEnter2D(Collider2D other) {
-		if (other.tag == "PlayerAvatar")
+		if (other.tag == "Player")
 			LoopSaveSystem.instance.LoadAll();
 	}
 }

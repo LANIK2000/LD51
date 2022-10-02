@@ -8,12 +8,12 @@ public class Web : MonoBehaviour
 	public bool PlayerInWeb;
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (other.tag == "PlayerAvatar")
+		if (other.tag == "Player")
 			PlayerInWeb = true;
 	}
 
 	void OnTriggerExit2D(Collider2D other) {
-		if (other.tag == "PlayerAvatar")
+		if (other.tag == "Player")
 			PlayerInWeb = false;
 	}
 }
