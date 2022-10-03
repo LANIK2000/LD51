@@ -30,6 +30,8 @@ public class Snek : LoopingEntity
 	bool _saved_alive = true;
 	bool _alive = true;
 	void Die(){
+		_DED.transform.position = transform.position;
+		_DED.Play();
 		_alive = false;
 		gameObject.SetActive(false);
 	}
@@ -59,12 +61,15 @@ public class Snek : LoopingEntity
 		}
 	}
 
-	// Start is called before the first frame update
+	ParticleSystem _DED;
 	protected override void Start()
 	{
 		base.Start();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_rb = GetComponent<Rigidbody2D>();
+		_DED = transform.Find("DED").GetComponent<ParticleSystem>();
+		_DED.transform.SetParent(null);
+		_DED.transform.localScale = new Vector3(5, 5, 1);
 	}
 
 	private SpriteRenderer _spriteRenderer;

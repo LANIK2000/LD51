@@ -28,6 +28,7 @@ public partial class Player : LoopingEntity
 
 	public override void Save() {
 		base.Save();
+		_sfxSave.Play();
 		if (CheckPoint != null) {
 			CheckPoint.position = _rb.position;
 			CheckPoint.position = new Vector3(CheckPoint.position.x, CheckPoint.position.y, -1);
@@ -36,6 +37,7 @@ public partial class Player : LoopingEntity
 
 	public override void Load() {
 		base.Load();
+		_sfxLoad.Play();
 		// if (Camera != null)
 		// 	Camera.position = _rb.position;
 	}
@@ -60,8 +62,14 @@ public partial class Player : LoopingEntity
 	GameObject _attackLeft;
 	GameObject _attackRight;
 	bool _canAttack = true;
+	AudioSource _sfxAttack;
+	AudioSource _sfxJump;
+	AudioSource _sfxSave;
+	AudioSource _sfxLoad;
 
 	protected override void Start() {
+		instance = this;
+		
 		_animator = GetComponent<Animator>();
 		base.Start();
 
@@ -81,16 +89,22 @@ public partial class Player : LoopingEntity
 			Camera.gameObject.SetActive(true);
 			Camera.SetParent(null);
 		}
+
+		_sfxAttack = transform.Find("Sound Attack").GetComponent<AudioSource>();
+		_sfxJump = transform.Find("Sound Jump").GetComponent<AudioSource>();
+		_sfxSave = transform.Find("Sound Save").GetComponent<AudioSource>();
+		_sfxLoad = transform.Find("Sound Load").GetComponent<AudioSource>();
 	}
 
 	void Update() {
-		_timerTextMesh.text = "Reset Timer: " + (LoopSaveSystem.instance?.Timer ?? 0).ToString();
+		_timerTextMesh.text = "Autosave in " + ((int)(LoopSaveSystem.instance?.Timer ?? 0) + 1).ToString();
 
 		if (_onGround == 0 && _onWallL == 0 && _onWallR == 0)
 			_coyoteTime -= Time.deltaTime;
 
 		if (Input.GetButtonDown("Jump") && _coyoteTime > 0) {
 			_rb.velocity = new Vector2(_rb.velocity.x, JumpForce) + _velocity_overide;
+			_sfxJump.Play();
 			if (_onGround == 0) {
 				if (_onWallL > 0)
 					_velocity_overide.x = RunningSpeed * 1.25f;
@@ -110,6 +124,7 @@ public partial class Player : LoopingEntity
 			else if (Input.GetButton("Right"))
 				Flip = false;
 			_canAttack = false;
+			_sfxAttack.Play();
 			_animator.SetBool(AnimAttackInit, true);
 			_animator.SetBool(AnimAttack, true);
 		}

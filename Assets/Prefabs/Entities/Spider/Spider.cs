@@ -20,11 +20,21 @@ public class Spider : LoopingEntity
 	bool _saved_alive = true;
 	bool _alive = true;
 	void Die(){
+		_DED.transform.position = transform.position;
+		_DED.Play();
 		_alive = false;
 		gameObject.SetActive(false);
 	}
 
 	public float MoveSpeed = 1;
+
+	ParticleSystem _DED;
+	protected override void Start() {
+		base.Start();
+		_DED = transform.Find("DED").GetComponent<ParticleSystem>();
+		_DED.transform.SetParent(null);
+		_DED.transform.localScale = new Vector3(5, 5, 1);
+	}
 
 	void Update() {
 		Vector2 target;
@@ -43,6 +53,7 @@ public class Spider : LoopingEntity
 			Quaternion.Euler(new Vector3(0, 0, Lib.FindAngle(transform.position, target) - 90)),
 			Time.deltaTime * 2000f
 		);
+		Debug.Log(target);
 		// transform.rotation = Quaternion.Euler(0, 0,
 		// 	Lib.FindAngle(transform.position, target) - 90);
 	}

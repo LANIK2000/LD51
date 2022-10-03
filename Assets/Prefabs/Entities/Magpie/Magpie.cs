@@ -8,7 +8,7 @@ public class Magpie : LoopingEntity
 	public override void Save() {
 		_saved_alive = _alive;
 		_savedTime = _wanderTimer;
-		_savedVelocity = _velocity;
+		_savedVelocity = _curent_velocity;
 		_savedAggro = _aggro;
 		base.Save();
 	}
@@ -17,7 +17,7 @@ public class Magpie : LoopingEntity
 		_alive = _saved_alive;
 		gameObject.SetActive(_saved_alive);
 		_wanderTimer = _savedTime;
-		_velocity = _savedVelocity;
+		_curent_velocity = _savedVelocity;
 		_aggro = _savedAggro;
 		base.Load();
 	}
@@ -25,6 +25,8 @@ public class Magpie : LoopingEntity
 	bool _saved_alive = true;
 	bool _alive = true;
 	void Die(){
+		_DED.transform.position = transform.position;
+		_DED.Play();
 		_alive = false;
 		gameObject.SetActive(false);
 	}
@@ -49,12 +51,14 @@ public class Magpie : LoopingEntity
 	private static readonly int AnimAttack = Animator.StringToHash("Attack");
 	SpriteRenderer _spriteRenderer;
 	Vector2 _origin;
-	Vector2 _velocity = new Vector2();
+	Vector2 _curent_velocity = new Vector2();
 	Vector2 _savedVelocity = new Vector2();
 	Vector2 _wanderDir = new Vector2();
 	float _wanderTimer = 0;
 	float _savedTime = 0;
 
+
+	ParticleSystem _DED;
 	// Start is called before the first frame update
 	protected override void Start()
 	{
@@ -62,15 +66,18 @@ public class Magpie : LoopingEntity
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_animator = GetComponent<Animator>();
 		_origin = transform.parent.position;
+		_DED = transform.Find("DED").GetComponent<ParticleSystem>();
+		_DED.transform.SetParent(null);
+		_DED.transform.localScale = new Vector3(5, 5, 1);
 	}
 
 	void Update() {
 		if (_aggro) {
-			_velocity += (new Vector2(Player.instance.transform.position.x, Player.instance.transform.position.y)
+			_curent_velocity += (new Vector2(Player.instance.transform.position.x, Player.instance.transform.position.y)
 				- _rb.position).normalized * Time.deltaTime * 10;
-			if (Mathf.Abs(_velocity.x) + Mathf.Abs(_velocity.y) > MaxAggroSpeed) {
-				_velocity.Normalize();
-				_velocity *= MaxAggroSpeed;
+			if (Mathf.Abs(_curent_velocity.x) + Mathf.Abs(_curent_velocity.y) > MaxAggroSpeed) {
+				_curent_velocity.Normalize();
+				_curent_velocity *= MaxAggroSpeed;
 			}
 		}
 		else {
@@ -85,22 +92,22 @@ public class Magpie : LoopingEntity
 
 			if (Mathf.Abs(_origin.x - _rb.position.x) > WanderDistanceX
 				|| Mathf.Abs(_origin.y - _rb.position.y) > WanderDistanceY) {
-					_velocity += (_origin - _rb.position).normalized * Time.deltaTime * 4;
+					_curent_velocity += (_origin - _rb.position).normalized * Time.deltaTime * 4;
 					_wanderTimer = WanderTimer;
-					_wanderDir = -_velocity;
+					_wanderDir = -_curent_velocity;
 			}
 			else
-				_velocity += _wanderDir * Time.deltaTime * 2;
+				_curent_velocity += _wanderDir * Time.deltaTime * 2;
 			
-			if (Mathf.Abs(_velocity.x) + Mathf.Abs(_velocity.y) > MaxSpeed) {
-				_velocity.Normalize();
-				_velocity *= MaxSpeed;
+			if (Mathf.Abs(_curent_velocity.x) + Mathf.Abs(_curent_velocity.y) > MaxSpeed) {
+				_curent_velocity.Normalize();
+				_curent_velocity *= MaxSpeed;
 			}
 		}
 
 
-		_spriteRenderer.flipX = _velocity.x > 0;
-		_rb.velocity = _velocity;
+		_spriteRenderer.flipX = _curent_velocity.x > 0;
+		_rb.velocity = _curent_velocity;
 		_animator.SetBool(AnimAttack, _aggro);
 	}
 }

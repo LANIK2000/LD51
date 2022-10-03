@@ -16,11 +16,15 @@ public class LoopingEntity : MonoBehaviour
 		_rb.velocity = _velocity;
 		_rb.position = _position;
 		_rb.rotation = _rotation;
+		if (_particle != null)
+			_particle.Play();
 	}
 
+	protected ParticleSystem _particle = null;
 	protected Rigidbody2D _rb;
 	protected virtual void Start() {
 		_rb = GetComponent<Rigidbody2D>();
+		_particle = GetComponent<ParticleSystem>();
 		LoopSaveSystem.Entities.Add(this);
 	}
 }
