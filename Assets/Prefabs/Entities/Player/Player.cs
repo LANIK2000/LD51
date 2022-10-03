@@ -80,13 +80,13 @@ public partial class Player : LoopingEntity
 		_attackRight = transform.Find("AttackRight").gameObject;
 		var Canvas = transform.Find("Canvas");
 		if (Canvas != null) {
-			Canvas.gameObject.SetActive(true);
+			Canvas.gameObject.active = true;
 			Canvas.SetParent(null);
 		}
 		if (CheckPoint != null && CheckPoint.parent != null)
 			CheckPoint.SetParent(null);
 		if (Camera != null && Camera.parent != null) {
-			Camera.gameObject.SetActive(true);
+			Camera.gameObject.active = true;
 			Camera.SetParent(null);
 		}
 
@@ -135,21 +135,21 @@ public partial class Player : LoopingEntity
 		_spriteRenderer.flipX = Flip;
 
 		if (!_animator.GetBool(AnimAttack)) {
-			_attackLeft.SetActive(false);
-			_attackRight.SetActive(false);
+			_attackLeft.active = false;
+			_attackRight.active = false;
 		}
 	}
 
 	public void AttackStrikeStart() {
 		if (Flip)
-			_attackLeft.SetActive(true);
+			_attackLeft.active = true;
 		else
-			_attackRight.SetActive(true);
+			_attackRight.active = true;
 	}
 
 	public void AttackStrikeEnd() {
-		_attackLeft.SetActive(false);
-		_attackRight.SetActive(false);
+		_attackLeft.active = false;
+		_attackRight.active = false;
 	}
 
 	public void AttackEnd() {

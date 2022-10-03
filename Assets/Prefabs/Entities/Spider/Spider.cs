@@ -14,7 +14,7 @@ public class Spider : LoopingEntity
 	public override void Load() {
 		base.Load();
 		_alive = _saved_alive;
-		gameObject.SetActive(_saved_alive);
+		gameObject.active = _saved_alive;
 	}
 
 	bool _saved_alive = true;
@@ -23,7 +23,7 @@ public class Spider : LoopingEntity
 		_DED.transform.position = transform.position;
 		_DED.Play();
 		_alive = false;
-		gameObject.SetActive(false);
+		gameObject.active = false;
 	}
 
 	public float MoveSpeed = 1;

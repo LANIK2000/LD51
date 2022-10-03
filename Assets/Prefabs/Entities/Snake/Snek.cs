@@ -21,7 +21,7 @@ public class Snek : LoopingEntity
 	public override void Load() {
 		base.Load();
 		_alive = _saved_alive;
-		gameObject.SetActive(_saved_alive);
+		gameObject.active = _saved_alive;
 		FacingRight = _savedFlip;
 		_spriteRenderer.flipX = FacingRight;
 		Timer = _savedTime;
@@ -33,7 +33,7 @@ public class Snek : LoopingEntity
 		_DED.transform.position = transform.position;
 		_DED.Play();
 		_alive = false;
-		gameObject.SetActive(false);
+		gameObject.active = false;
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {

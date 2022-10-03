@@ -25,6 +25,6 @@ public class LoopingEntity : MonoBehaviour
 	protected virtual void Start() {
 		_rb = GetComponent<Rigidbody2D>();
 		_particle = GetComponent<ParticleSystem>();
-		LoopSaveSystem.Entities.Add(this);
+		LoopSaveSystem.instance.Entities.Add(this);
 	}
 }

@@ -17,7 +17,7 @@ public class LoopSaveSystem : MonoBehaviour
 			instance = this;
 	}
 
-	static public List<LoopingEntity> Entities = new List<LoopingEntity>();
+	public List<LoopingEntity> Entities = new List<LoopingEntity>();
 	
 	public bool button_save = false;
 	public bool button_load = false;

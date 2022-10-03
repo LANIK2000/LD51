@@ -15,7 +15,7 @@ public class Magpie : LoopingEntity
 
 	public override void Load() {
 		_alive = _saved_alive;
-		gameObject.SetActive(_saved_alive);
+		gameObject.active = _saved_alive;
 		_wanderTimer = _savedTime;
 		_curent_velocity = _savedVelocity;
 		_aggro = _savedAggro;
@@ -28,7 +28,7 @@ public class Magpie : LoopingEntity
 		_DED.transform.position = transform.position;
 		_DED.Play();
 		_alive = false;
-		gameObject.SetActive(false);
+		gameObject.active = false;
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
