@@ -36,8 +36,8 @@ public partial class Player : LoopingEntity
 
 	public override void Load() {
 		base.Load();
-		if (Camera != null)
-			Camera.position = _rb.position;
+		// if (Camera != null)
+		// 	Camera.position = _rb.position;
 	}
 
 	public bool Flip { get; private set; } = false;
@@ -71,12 +71,16 @@ public partial class Player : LoopingEntity
 		_attackLeft = transform.Find("AttackLeft").gameObject;
 		_attackRight = transform.Find("AttackRight").gameObject;
 		var Canvas = transform.Find("Canvas");
-		if (Canvas != null)
+		if (Canvas != null) {
+			Canvas.gameObject.SetActive(true);
 			Canvas.SetParent(null);
+		}
 		if (CheckPoint != null && CheckPoint.parent != null)
 			CheckPoint.SetParent(null);
-		if (Camera != null && Camera.parent != null)
+		if (Camera != null && Camera.parent != null) {
+			Camera.gameObject.SetActive(true);
 			Camera.SetParent(null);
+		}
 	}
 
 	void Update() {
@@ -114,6 +118,11 @@ public partial class Player : LoopingEntity
 		_animator.SetFloat(AnimVerticality, _rb.velocity.y);
 		
 		_spriteRenderer.flipX = Flip;
+
+		if (!_animator.GetBool(AnimAttack)) {
+			_attackLeft.SetActive(false);
+			_attackRight.SetActive(false);
+		}
 	}
 
 	public void AttackStrikeStart() {
