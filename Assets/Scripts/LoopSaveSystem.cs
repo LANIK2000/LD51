@@ -41,14 +41,16 @@ public class LoopSaveSystem : MonoBehaviour
 		}
 	}
 
+	public float Duration = 10;
+
 	public void LoadAll() {
-		Timer = 10;
+		Timer = Duration;
 		foreach (var entity in Entities)
 			entity?.Load();
 	}
 
 	public void SaveAll() {
-		Timer = 10;
+		Timer = Duration;
 		foreach (var entity in Entities)
 			entity?.Save();
 	}

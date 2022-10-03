@@ -53,7 +53,6 @@ public class Spider : LoopingEntity
 			Quaternion.Euler(new Vector3(0, 0, Lib.FindAngle(transform.position, target) - 90)),
 			Time.deltaTime * 2000f
 		);
-		Debug.Log(target);
 		// transform.rotation = Quaternion.Euler(0, 0,
 		// 	Lib.FindAngle(transform.position, target) - 90);
 	}
